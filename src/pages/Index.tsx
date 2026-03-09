@@ -156,11 +156,26 @@ const Index = () => {
 
   return (
     <Layout>
-      {/* Main Container with Search */}
-      <div className="bg-secondary/50 min-h-screen pt-28 pb-12">
-        <div className="container-custom">
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-16 lg:pt-48 lg:pb-24 overflow-hidden bg-background">
+        {/* Background Patterns */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-primary opacity-20 blur-[100px]"></div>
+        
+        <div className="container-custom relative z-10">
+          {/* Hero Text */}
+          <div className="max-w-4xl mx-auto text-center mb-10 animate-fade-up">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-foreground tracking-tight mb-6">
+              Find Your Perfect <br className="hidden md:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-400">Student Home</span>
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Discover verified PGs, hostels, and flats near your college. Book with zero hassle, transparent pricing, and instant confirmation.
+            </p>
+          </div>
+
           {/* Search Bar */}
-          <div className="bg-surface rounded-2xl shadow-md border border-border/50 p-2 mb-6 flex flex-wrap items-center justify-between gap-2 lg:gap-0 animate-fade-up">
+          <div className="max-w-6xl mx-auto bg-surface/80 backdrop-blur-xl shadow-2xl rounded-2xl border border-border/50 p-2 mb-12 flex flex-wrap items-center justify-between gap-2 lg:gap-0 animate-fade-up" style={{ animationDelay: '0.2s' }}>
             {/* Location */}
             <div className="flex items-center gap-2 px-4 py-2 flex-grow min-w-[200px] lg:border-r border-border/50">
               <MapPin className="w-5 h-5 text-muted-foreground shrink-0" />
@@ -302,7 +317,7 @@ const Index = () => {
             </div>
           )}
         </div>
-      </div>
+      </section>
 
       {/* Stats Section */}
       <section className="py-12 bg-surface border-y border-border">
