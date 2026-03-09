@@ -22,7 +22,7 @@ export const setUserRole = async (role: 'owner' | 'student', getToken?: () => Pr
     // This will be handled by backend API
     // Frontend cannot directly update user metadata for security reasons
     // The backend should verify the user's session token
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+    const apiUrl = import.meta.env.VITE_API_URL || 'https://nivapi.invoiceman.in/api';
     const response = await fetch(`${apiUrl}/users/set-role`, {
       method: 'POST',
       headers: {

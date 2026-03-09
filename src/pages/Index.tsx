@@ -36,7 +36,7 @@ const Index = () => {
     const fetchFeaturedProperties = async () => {
       try {
         setLoadingFeatured(true);
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+        const apiUrl = import.meta.env.VITE_API_URL || 'https://nivapi.invoiceman.in/api';
         const response = await fetch(`${apiUrl}/properties?limit=8`, {
           method: 'GET',
           headers: {
@@ -65,13 +65,15 @@ const Index = () => {
 
   // Transform API properties to PropertyCard format
   const transformedFeaturedProperties = useMemo(() => {
-    const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:3000/api').replace('/api', '');
+    const baseUrl = (import.meta.env.VITE_API_URL || 'https://nivapi.invoiceman.in/api').replace('/api', '');
 
     return featuredProperties.map((property) => {
       let imageUrl = 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop';
       if (property.photos && property.photos.length > 0) {
         const firstPhoto = property.photos[0];
-        if (firstPhoto.startsWith('http://') || firstPhoto.startsWith('https://')) {
+        if (firstPhoto.startsWith('data:image/')) {
+          imageUrl = firstPhoto;
+        } else if (firstPhoto.startsWith('http://') || firstPhoto.startsWith('https://')) {
           imageUrl = firstPhoto;
         } else if (firstPhoto.startsWith('/')) {
           imageUrl = `${baseUrl}${firstPhoto}`;

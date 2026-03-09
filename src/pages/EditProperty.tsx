@@ -135,7 +135,7 @@ const EditProperty = () => {
         throw new Error('No authentication token');
       }
 
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://nivapi.invoiceman.in/api';
       const response = await fetch(`${apiUrl}/properties/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -169,9 +169,13 @@ const EditProperty = () => {
           images: [],
         });
         // Format existing photo URLs for display
-        const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:3000/api').replace('/api', '');
+        const baseUrl = (import.meta.env.VITE_API_URL || 'https://nivapi.invoiceman.in/api').replace('/api', '');
         const formattedPhotos = (property.photos || []).map((photo: string) => {
           if (!photo) return '';
+          // If it's a data URI (like base64), return as is
+          if (photo.startsWith('data:image/')) {
+            return photo;
+          }
           // If already a full URL, return as is
           if (photo.startsWith('http://') || photo.startsWith('https://')) {
             return photo;
@@ -321,7 +325,7 @@ const EditProperty = () => {
         formData.append('photos', file);
       });
 
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://nivapi.invoiceman.in/api';
       const response = await fetch(`${apiUrl}/properties/upload-photos`, {
         method: 'POST',
         headers: {
@@ -339,7 +343,7 @@ const EditProperty = () => {
       const photoUrls = data.photos.map((url: string) => {
         if (url.startsWith('/')) {
           // Base URL without /api since photos are served from root
-          const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:3000/api').replace('/api', '');
+          const baseUrl = (import.meta.env.VITE_API_URL || 'https://nivapi.invoiceman.in/api').replace('/api', '');
           return `${baseUrl}${url}`;
         }
         return url;
@@ -390,7 +394,7 @@ const EditProperty = () => {
         throw new Error('No authentication token');
       }
 
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://nivapi.invoiceman.in/api';
       const response = await fetch(`${apiUrl}/properties/${id}`, {
         method: 'PUT',
         headers: {
@@ -402,7 +406,7 @@ const EditProperty = () => {
           photos: uploadedPhotoUrls.map(url => {
             // Convert absolute URL back to relative if needed
             // Base URL without /api since photos are served from root
-            const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:3000/api').replace('/api', '');
+            const baseUrl = (import.meta.env.VITE_API_URL || 'https://nivapi.invoiceman.in/api').replace('/api', '');
             if (url.startsWith(baseUrl)) {
               return url.replace(baseUrl, '');
             }
@@ -892,8 +896,8 @@ const EditProperty = () => {
                   Previous
                 </Button>
                 
-                {currentStep === steps.length ? (
-                  <Button type="submit" variant="hero" disabled={isSubmitting}>
+                {currentStep === steps.length && (
+                  <Button key="submit" type="submit" variant="hero" disabled={isSubmitting}>
                     {isSubmitting ? (
                       <>
                         <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -906,8 +910,9 @@ const EditProperty = () => {
                       </>
                     )}
                   </Button>
-                ) : (
-                  <Button type="button" variant="default" onClick={nextStep}>
+                )}
+                {currentStep !== steps.length && (
+                  <Button key="next" type="button" variant="default" onClick={nextStep}>
                     Next
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>

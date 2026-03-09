@@ -66,7 +66,7 @@ const OwnerDashboard = () => {
         throw new Error('No authentication token');
       }
 
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://nivapi.invoiceman.in/api';
       const response = await fetch(`${apiUrl}/owner/dashboard`, {
         headers: {
           'Authorization': `Bearer ${token}`,

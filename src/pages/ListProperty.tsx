@@ -254,7 +254,7 @@ const ListProperty = () => {
         formData.append('photos', file);
       });
 
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://nivapi.invoiceman.in/api';
       const response = await fetch(`${apiUrl}/properties/upload-photos`, {
         method: 'POST',
         headers: {
@@ -273,7 +273,7 @@ const ListProperty = () => {
         // Convert relative URL to absolute URL
         // Base URL without /api since photos are served from root
         if (url.startsWith('/')) {
-          const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:3000/api').replace('/api', '');
+          const baseUrl = (import.meta.env.VITE_API_URL || 'https://nivapi.invoiceman.in/api').replace('/api', '');
           return `${baseUrl}${url}`;
         }
         return url;
@@ -328,7 +328,7 @@ const ListProperty = () => {
         throw new Error('No authentication token');
       }
 
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://nivapi.invoiceman.in/api';
       const response = await fetch(`${apiUrl}/properties`, {
         method: 'POST',
         headers: {
@@ -828,8 +828,8 @@ const ListProperty = () => {
                   Previous
                 </Button>
                 
-                {currentStep === steps.length ? (
-                  <Button type="submit" variant="hero" disabled={isSubmitting}>
+                {currentStep === steps.length && (
+                  <Button key="submit" type="submit" variant="hero" disabled={isSubmitting}>
                     {isSubmitting ? (
                       <>
                         <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -842,8 +842,9 @@ const ListProperty = () => {
                       </>
                     )}
                   </Button>
-                ) : (
-                  <Button type="button" variant="default" onClick={nextStep}>
+                )}
+                {currentStep !== steps.length && (
+                  <Button key="next" type="button" variant="default" onClick={nextStep}>
                     Next
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>

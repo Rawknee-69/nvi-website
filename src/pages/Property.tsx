@@ -68,7 +68,7 @@ const Property = () => {
   const fetchProperty = async () => {
     try {
       setLoading(true);
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://nivapi.invoiceman.in/api';
       const response = await fetch(`${apiUrl}/properties/${id}`);
 
       if (!response.ok) {
@@ -163,10 +163,14 @@ const Property = () => {
 
   // Format photos URLs - handle both 'photos' and 'images' field names
   // Base URL without /api since photos are served from root
-  const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:3000/api').replace('/api', '');
+  const baseUrl = (import.meta.env.VITE_API_URL || 'https://nivapi.invoiceman.in/api').replace('/api', '');
   const photoArray = property.photos || (property as any).images || [];
   const photos = photoArray.map((photo: string) => {
     if (!photo) return '';
+    // If it's a data URI (like base64), return as is
+    if (photo.startsWith('data:image/')) {
+      return photo;
+    }
     // If already a full URL, return as is
     if (photo.startsWith('http://') || photo.startsWith('https://')) {
       return photo;

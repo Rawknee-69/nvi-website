@@ -51,7 +51,7 @@ const Listings = () => {
   const fetchProperties = async () => {
     try {
       setLoading(true);
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://nivapi.invoiceman.in/api';
       const params = new URLSearchParams();
       
       if (searchQuery) params.append('search', searchQuery);
@@ -104,14 +104,16 @@ const Listings = () => {
   // Transform API properties to PropertyCard format
   const transformedProperties = useMemo(() => {
     // Base URL without /api since photos are served from root
-    const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:3000/api').replace('/api', '');
+    const baseUrl = (import.meta.env.VITE_API_URL || 'https://nivapi.invoiceman.in/api').replace('/api', '');
     
     return properties.map((property) => {
       // Get first photo or fallback
       let imageUrl = 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop';
       if (property.photos && property.photos.length > 0) {
         const firstPhoto = property.photos[0];
-        if (firstPhoto.startsWith('http://') || firstPhoto.startsWith('https://')) {
+        if (firstPhoto.startsWith('data:image/')) {
+          imageUrl = firstPhoto;
+        } else if (firstPhoto.startsWith('http://') || firstPhoto.startsWith('https://')) {
           imageUrl = firstPhoto;
         } else if (firstPhoto.startsWith('/')) {
           imageUrl = `${baseUrl}${firstPhoto}`;
