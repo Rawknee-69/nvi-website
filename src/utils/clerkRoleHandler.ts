@@ -1,5 +1,6 @@
-import { User } from '@clerk/clerk-react';
-import { useAuth } from '@clerk/clerk-react';
+import { useUser } from '@clerk/clerk-react';
+
+type User = NonNullable<ReturnType<typeof useUser>['user']>;
 
 /**
  * Sets the user role in Clerk public metadata

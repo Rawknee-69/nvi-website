@@ -1,8 +1,10 @@
+
 import { useEffect, useRef } from 'react';
 import { Link, useSearchParams, useNavigate, useLocation } from 'react-router-dom';
 import { SignIn } from '@clerk/clerk-react';
 import { useUser } from '@clerk/clerk-react';
 import { useTheme } from 'next-themes';
+import { dark } from '@clerk/themes';
 
 const Login = () => {
   const [searchParams] = useSearchParams();
@@ -106,7 +108,7 @@ const Login = () => {
               signUpUrl={`/signup?role=${role}${next !== '/' ? `&next=${next}` : ''}`}
               fallbackRedirectUrl="/"
               appearance={{
-                baseTheme: currentTheme === 'dark' ? 'dark' : 'light',
+                baseTheme: currentTheme === 'dark' ? dark : undefined,
                 elements: {
                   rootBox: "mx-auto w-full",
                   card: "shadow-none bg-transparent border-none",
