@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: nivasya-api
+    runtime: node
+    rootDir: api
+    buildCommand: npm install && npm run build
+    startCommand: node dist/server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: FRONTEND_URL
+        value: https://main.nivasya.pages.dev
+      - key: DATABASE_URL
+        sync: false # set this manually in Render dashboard (sensitive)
+      - key: CLERK_SECRET_KEY
+        sync: false # set this manually in Render dashboard (sensitive)
+      - key: NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+        sync: false # set this manually in Render dashboard (sensitive)
